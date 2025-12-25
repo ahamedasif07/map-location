@@ -1,17 +1,17 @@
 import React from "react";
 
-const topBanner = () => {
+const TopBanner = () => {
   return (
     <div>
       {/* Top Banner */}
-      <div className="flex items-center justify-between border border-green-500 rounded-xl m-4 p-4">
+      <div className="flex items-center justify-between  max-w-4xl mx-auto  border border-green-500 rounded-xl m-4 p-4">
         <div className="flex items-center gap-3">
           <div className="text-2xl">🎄</div>
           <div>
-            <p className="text-green-600 font-semibold text-lg">
-              Sign In, save up to 50%!
+            <p className=" font-semibold text-[24px]">
+              <span className="text-green-600"> Sign In,</span> save up to 50%!
             </p>
-            <p className="text-sm text-gray-600">
+            <p className="text-md text-gray-800 ">
               Enjoy exclusive rates in Amsterdam just for Wego members.
             </p>
           </div>
@@ -24,4 +24,4 @@ const topBanner = () => {
   );
 };
 
-export default topBanner;
+export default TopBanner;
