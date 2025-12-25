@@ -1,12 +1,18 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
-import { ChevronDown, SlidersHorizontal, Search } from "lucide-react";
+import React, { useRef } from "react";
+import {
+  ChevronDown,
+  SlidersHorizontal,
+  Search,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 
 const FilterButton = ({ label, children, icon }) => {
-  const [open, setOpen] = useState(false);
-  const ref = useRef(null);
+  const [open, setOpen] = React.useState(false);
+  const ref = React.useRef(null);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const handler = (e) => {
       if (ref.current && !ref.current.contains(e.target)) {
         setOpen(false);
@@ -17,16 +23,16 @@ const FilterButton = ({ label, children, icon }) => {
   }, []);
 
   return (
-    <div ref={ref} className="relative">
+    <div ref={ref} className="relative flex-shrink-0">
       <button
         onClick={() => setOpen(!open)}
-        className={`flex items-center gap-2 px-4 py-2 border rounded-full text-sm font-medium bg-white text-gray-800 hover:bg-gray-50 hover:border-gray-400 transition-all duration-150 ${
+        className={`flex items-center gap-2 px-4 py-2 border rounded-lg text-sm font-medium bg-white text-gray-800 hover:bg-gray-50 hover:border-gray-400 transition-all duration-150 ${
           open ? "border-gray-400 bg-gray-50" : ""
         }`}
       >
         {icon}
         <span>{label}</span>
-        <ChevronDown size={16} className="text-gray-500" />
+        {children && <ChevronDown size={16} className="text-gray-500" />}
       </button>
 
       {open && children && (
@@ -40,10 +46,7 @@ const FilterButton = ({ label, children, icon }) => {
 
 export default function FilterBar() {
   const filters = [
-    {
-      label: "All Filters",
-      icon: <SlidersHorizontal size={16} />,
-    },
+    { label: "All Filters", icon: <SlidersHorizontal size={16} /> },
     {
       label: "Sort by: Recommended",
       options: [
@@ -53,10 +56,7 @@ export default function FilterBar() {
         "Top Rated",
       ],
     },
-    {
-      label: "Hotel Name",
-      isSearch: true,
-    },
+    { label: "Hotel Name", isSearch: true },
     {
       label: "Price Range (USD)",
       options: ["$0 – $50", "$50 – $100", "$100 – $200", "$200+"],
@@ -65,10 +65,7 @@ export default function FilterBar() {
       label: "Review Score",
       options: ["Wonderful (9+)", "Very Good (8+)", "Good (7+)"],
     },
-    {
-      label: "Star Rating",
-      options: ["★★★★★", "★★★★", "★★★"],
-    },
+    { label: "Star Rating", options: ["★★★★★", "★★★★", "★★★"] },
     {
       label: "Districts / Areas",
       options: ["City Center", "Airport Area", "Beachfront"],
@@ -79,14 +76,44 @@ export default function FilterBar() {
     },
   ];
 
+  const containerRef = useRef(null);
+
+  const scroll = (direction) => {
+    if (containerRef.current) {
+      const scrollAmount = 200;
+      containerRef.current.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
-    <div className="w-full bg-white border rounded-xl px-3 py-3 shadow-sm">
-      <div className="flex flex-wrap items-center gap-2">
+    <div className="w-full max-w-7xl mx-auto bg-white rounded-xl px-3 py-3 shadow-sm relative">
+      {/* Left Arrow - small devices only */}
+      <button
+        onClick={() => scroll("left")}
+        className="absolute left-0 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white shadow-md z-10 flex md:hidden items-center justify-center"
+      >
+        <ChevronLeft size={24} />
+      </button>
+
+      {/* Right Arrow - small devices only */}
+      <button
+        onClick={() => scroll("right")}
+        className="absolute right-0 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white shadow-md z-10 flex md:hidden items-center justify-center"
+      >
+        <ChevronRight size={24} />
+      </button>
+
+      <div
+        ref={containerRef}
+        className="flex gap-2 overflow-x-auto md:overflow-x-visible scroll-smooth px-8 scrollbar-none"
+      >
         {filters.map((filter) => {
           if (filter.isSearch) {
-            // Search input
             return (
-              <div key={filter.label} className="relative">
+              <div key={filter.label} className="relative flex-shrink-0">
                 <Search
                   className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
                   size={16}
@@ -94,12 +121,11 @@ export default function FilterBar() {
                 <input
                   type="text"
                   placeholder={filter.label}
-                  className="pl-9 pr-4 py-2 border rounded-full text-sm focus:outline-none focus:border-gray-400 hover:bg-gray-50"
+                  className="pl-9 pr-4 py-2 border rounded-lg text-sm focus:outline-none focus:border-gray-400 hover:bg-gray-50"
                 />
               </div>
             );
           } else if (filter.options) {
-            // Dropdown filter
             return (
               <FilterButton
                 key={filter.label}
@@ -119,11 +145,10 @@ export default function FilterBar() {
               </FilterButton>
             );
           } else {
-            // Simple button (like All Filters)
             return (
               <button
                 key={filter.label}
-                className="flex items-center gap-2 px-4 py-2 border rounded-full text-sm font-medium bg-white text-gray-800 hover:bg-gray-50 hover:border-gray-400 transition-all duration-150"
+                className="flex-shrink-0 flex items-center gap-2 px-4 py-2 border rounded-lg text-sm font-medium bg-white text-gray-800 hover:bg-gray-50 hover:border-gray-400 transition-all duration-150"
               >
                 {filter.icon}
                 <span>{filter.label}</span>
