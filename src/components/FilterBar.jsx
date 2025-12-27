@@ -12,14 +12,12 @@ import AllFiltersDropdown from "./AllFilterButton";
 
 /**
  * FilterButton Component with Portal support
- * এটি ড্রপডাউন মেনুটিকে বডির ঠিক নিচে রেন্ডার করে যাতে overflow-x-auto মেনুকে কেটে না দেয়।
  */
 const FilterButton = ({ label, children, icon }) => {
   const [open, setOpen] = useState(false);
   const buttonRef = useRef(null);
   const [coords, setCoords] = useState({ top: 0, left: 0 });
 
-  // বাটনের পজিশন অনুযায়ী মেনুর পজিশন সেট করা
   const updatePosition = () => {
     if (buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect();
@@ -45,7 +43,6 @@ const FilterButton = ({ label, children, icon }) => {
   useEffect(() => {
     const handler = (e) => {
       if (buttonRef.current && !buttonRef.current.contains(e.target)) {
-        // ড্রপডাউন পোর্টালের ভেতরে ক্লিক করলে যেন বন্ধ না হয়
         if (!e.target.closest(".portal-dropdown")) {
           setOpen(false);
         }
@@ -128,11 +125,17 @@ export default function FilterBar() {
     },
   ];
 
-  const scroll = (direction) => {
+  // স্ক্রল ফাংশন যা এখন স্মুথ কাজ করবে
+  const handleScroll = (direction) => {
     if (containerRef.current) {
-      const scrollAmount = 300;
-      containerRef.current.scrollBy({
-        left: direction === "left" ? -scrollAmount : scrollAmount,
+      const { scrollLeft, clientWidth } = containerRef.current;
+      const moveDistance = clientWidth * 0.6; // ডিভাইসের প্রস্থের ৬০% স্ক্রল করবে
+
+      containerRef.current.scrollTo({
+        left:
+          direction === "left"
+            ? scrollLeft - moveDistance
+            : scrollLeft + moveDistance,
         behavior: "smooth",
       });
     }
@@ -140,30 +143,36 @@ export default function FilterBar() {
 
   return (
     <div className="w-full border-y border-gray-100 bg-white sticky top-0 z-40">
-      <div className="max-w-7xl mx-auto px-4 py-4 relative flex items-center">
-        {/* Navigation Arrows for Mobile */}
+      <div className="max-w-7xl mx-auto px-4 py-4 relative flex items-center group">
+        {/* Left Arrow Button */}
         <button
-          onClick={() => scroll("left")}
-          className="absolute left-1 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white shadow-md z-10 md:hidden border border-gray-200 active:scale-95"
+          onClick={() => handleScroll("left")}
+          className="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white shadow-lg z-20 md:hidden border border-gray-200 hover:bg-gray-50 active:scale-90 transition-all"
+          aria-label="Scroll left"
         >
-          <ChevronLeft size={18} />
+          <ChevronLeft size={20} className="text-gray-700" />
         </button>
 
+        {/* Right Arrow Button */}
         <button
-          onClick={() => scroll("right")}
-          className="absolute right-1 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white shadow-md z-10 md:hidden border border-gray-200 active:scale-95"
+          onClick={() => handleScroll("right")}
+          className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white shadow-lg z-20 md:hidden border border-gray-200 hover:bg-gray-50 active:scale-90 transition-all"
+          aria-label="Scroll right"
         >
-          <ChevronRight size={18} />
+          <ChevronRight size={20} className="text-gray-700" />
         </button>
 
-        {/* Scrollable Container */}
+        {/* Main Scrollable Container */}
         <div
           ref={containerRef}
-          className="flex items-center gap-2 overflow-x-auto scrollbar-none scroll-smooth pb-1"
-          style={{ WebkitOverflowScrolling: "touch" }}
+          className="flex items-center gap-2 overflow-x-auto scrollbar-none scroll-smooth md:overflow-x-visible md:pb-0 pb-2"
+          style={{
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+            WebkitOverflowScrolling: "touch",
+          }}
         >
           {filters.map((filter, index) => {
-            // Case 1: All Filters
             if (filter.label === "All Filters") {
               return (
                 <FilterButton
@@ -176,7 +185,6 @@ export default function FilterBar() {
               );
             }
 
-            // Case 2: Search Input
             if (filter.isSearch) {
               return (
                 <div key={index} className="relative flex-shrink-0">
@@ -193,7 +201,6 @@ export default function FilterBar() {
               );
             }
 
-            // Case 3: Standard Dropdown
             if (filter.options) {
               return (
                 <FilterButton
@@ -201,12 +208,11 @@ export default function FilterBar() {
                   label={filter.label}
                   icon={filter.icon}
                 >
-                  <ul className="max-h-64 overflow-y-auto">
+                  <ul className="max-h-64 overflow-y-auto py-1">
                     {filter.options.map((option) => (
                       <li
                         key={option}
-                        className="px-4 py-2.5 text-sm text-gray-700 cursor-pointer hover:bg-gray-50 hover:text-black transition-colors"
-                        onClick={() => console.log(option)}
+                        className="px-4 py-2.5 text-sm text-gray-700 cursor-pointer hover:bg-gray-50 hover:text-black transition-colors whitespace-nowrap"
                       >
                         {option}
                       </li>
@@ -215,7 +221,6 @@ export default function FilterBar() {
                 </FilterButton>
               );
             }
-
             return null;
           })}
         </div>
