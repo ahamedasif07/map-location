@@ -49,7 +49,7 @@ export default function Home() {
           <div
             className={`w-full ${
               isMapShow ? "block" : "hidden lg:block"
-            } fixed lg:sticky lg:top-[350px] lg:w-[50%]`}
+            }  lg:sticky lg:top-[350px] lg:w-[50%]`}
           >
             <div className="overflow-hidden border border-gray-200 shadow-sm h-[500px] lg:h-[600px]">
               <MapLocation />
