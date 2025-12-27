@@ -54,8 +54,8 @@ export default function Home() {
           </div>
 
           {/* Right side: Map - এটি স্ক্রল করার সময় নিজের জায়গায় আটকে (Sticky) থাকবে */}
-          <div className="w-full  fixed lg:w-[40%] lg:sticky lg:top-[220px] h-[calc(100-220px)]">
-            <div className="rounded-xl overflow-hidden border border-gray-200 shadow-sm h-[500px] lg:h-[600px]">
+          <div className="w-full  fixed lg:w-[50%] lg:sticky lg:top-[350px] h-[calc(100-220px)]">
+            <div className=" overflow-hidden border border-gray-200 shadow-sm h-[500px] lg:h-[600px]">
               <MapLocation />
             </div>
           </div>
