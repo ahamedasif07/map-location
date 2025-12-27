@@ -1,30 +1,77 @@
+import {
+  FaDollarSign,
+  FaStar,
+  FaMapMarkerAlt,
+  FaHotel,
+  FaHome,
+  FaThumbsUp,
+  FaTag,
+} from "react-icons/fa";
+import { MdRateReview } from "react-icons/md";
+import { RiHotelLine } from "react-icons/ri";
+import { SlBadge } from "react-icons/sl";
+
+const sidebarMenu = [
+  {
+    label: "Price Range (USD)",
+    icon: <FaDollarSign />,
+  },
+  {
+    label: "Review Score",
+    icon: <MdRateReview />,
+  },
+  {
+    label: "Star Rating",
+    icon: <FaStar />,
+  },
+  {
+    label: "Hotel Facilities",
+    icon: <FaHotel />,
+  },
+  {
+    label: "Districts / Areas",
+    icon: <FaMapMarkerAlt />,
+  },
+  {
+    label: "Accommodation Type",
+    icon: <FaHome />,
+  },
+  {
+    label: "Highly Rated",
+    icon: <FaThumbsUp />,
+  },
+  {
+    label: "Rate Type",
+    icon: <FaTag />,
+  },
+  {
+    label: "Chains",
+    icon: <RiHotelLine />,
+  },
+  {
+    label: "Brand",
+    icon: <SlBadge />,
+  },
+];
 const AllFiltersDropdown = () => {
   return (
-    <div className="w-[90vw] md:w-[900px] max-h-[80vh] overflow-y-auto p-6">
+    <div className="w-[90vw] md:w-[900px] border-2 border-red-600 bg-white max-h-[80vh] overflow-y-auto p-6">
       <div className="grid grid-cols-1 md:grid-cols-[240px_1fr] gap-6">
         {/* LEFT FILTER MENU */}
-        <div className="space-y-4 border-r pr-4 hidden md:block">
-          {[
-            "Price Range (USD)",
-            "Review Score",
-            "Star Rating",
-            "Hotel Facilities",
-            "Districts / Areas",
-            "Accommodation Type",
-            "Highly Rated",
-            "Rate Type",
-          ].map((item) => (
+        <div className="space-y-6 border-r pr-4 hidden md:block">
+          {sidebarMenu.map((item) => (
             <button
-              key={item}
-              className="w-full text-left text-sm font-medium text-gray-700 hover:text-black"
+              key={item.label}
+              className="w-full flex items-center gap-3 text-left text-md font-medium text-gray-700 hover:text-black transition"
             >
-              {item}
+              <span className="text-gray-500">{item.icon}</span>
+              {item.label}
             </button>
           ))}
         </div>
 
         {/* RIGHT CONTENT */}
-        <div className="space-y-8">
+        <div className="space-y-8  ">
           {/* PRICE RANGE */}
           <div>
             <h3 className="text-lg font-semibold mb-4">Price Range (USD)</h3>
