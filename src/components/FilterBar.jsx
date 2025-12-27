@@ -9,6 +9,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import AllFiltersDropdown from "./AllFilterButton";
+import { CiViewList } from "react-icons/ci";
 
 /**
  * FilterButton Component with Portal support
@@ -91,10 +92,13 @@ const FilterButton = ({ label, children, icon }) => {
   );
 };
 
-export default function FilterBar() {
+export default function FilterBar({ isMapShow, setIsMapShow }) {
   const containerRef = useRef(null);
 
   const filters = [
+    {
+      label: ["View List", "View Map"],
+    },
     { label: "All Filters", icon: <SlidersHorizontal size={16} /> },
     {
       label: "Sort by: Recommended",
@@ -173,6 +177,20 @@ export default function FilterBar() {
           }}
         >
           {filters.map((filter, index) => {
+            if (filter.label[0] === "View List") {
+              return (
+                <div
+                  className="block lg:hidden"
+                  onClick={() => setIsMapShow(!isMapShow)}
+                  key={index}
+                >
+                  <FilterButton
+                    label={isMapShow ? filter.label[1] : filter.label[0]}
+                    icon={filter.icon}
+                  ></FilterButton>
+                </div>
+              );
+            }
             if (filter.label === "All Filters") {
               return (
                 <FilterButton
@@ -183,9 +201,7 @@ export default function FilterBar() {
                   <AllFiltersDropdown />
                 </FilterButton>
               );
-            }
-
-            if (filter.isSearch) {
+            } else if (filter.isSearch) {
               return (
                 <div key={index} className="relative flex-shrink-0">
                   <Search

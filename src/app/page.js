@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 
 export default function Home() {
   const [isSticky, setIsSticky] = useState(false);
+  const [isMapShow, setIsMapShow] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,9 +25,6 @@ export default function Home() {
 
   return (
     <div className="relative min-h-screen bg-gray-50">
-      {/* Top Wrapper: এটি ন্যাভবারকে ধরে রাখবে। 
-         আমরা CSS 'sticky' ব্যবহার করছি যাতে কন্টেন্ট লাফিয়ে উপরে না ওঠে।
-      */}
       <div
         className={`z-50 transition-all duration-300 ${
           isSticky
@@ -35,21 +33,15 @@ export default function Home() {
         }`}
       >
         <HotelSearchBar />
-        <FilterBar />
-        {/* TopBanner সাধারণত স্ক্রল করলে চলে যায়, তাই এটি স্টিকি কন্টেইনারের বাইরে রাখা ভালো। 
-            তবে আপনি যদি এটিকেও স্টিকি রাখতে চান তবে এখানে রাখতে পারেন। */}
+        <FilterBar const isMapShow={isMapShow} setIsMapShow={setIsMapShow} />
+
         <TopBanner />
       </div>
 
-      {/* Main Content Area: 
-         এখানে আমরা ফিক্সড হাইট ডিভ (h-[300px]) সরিয়ে দিয়েছি কারণ 
-         'sticky' ব্যবহার করলে কন্টেন্ট ন্যাভবারের নিচে ঢাকা পড়ে না।
-      */}
       <div className=" px-4 py-6 relative">
         <div className="flex flex-col lg:flex-row gap-6 items-start">
           {/* Left side: Hotel Cards List */}
           <div className="w-full lg:w-[60%] space-y-4">
-            {/* এখানে আপনার ম্যাপ করা হোটেল কার্ডগুলো থাকবে */}
             <HotelCard />
           </div>
 
