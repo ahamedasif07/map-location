@@ -5,10 +5,13 @@ import HotelCard from "@/components/HotelCard";
 import TopBanner from "@/components/TopBaner";
 import MapLocation from "@/components/MapLocation";
 import { useEffect, useState } from "react";
+import { useApi } from "@/components/shard/ApiContex";
 
 export default function Home() {
   const [isSticky, setIsSticky] = useState(false);
   const [isMapShow, setIsMapShow] = useState(true);
+  const { data, loading, error, refreshData } = useApi();
+  console.log("all hotels data", data);
 
   useEffect(() => {
     const handleScroll = () => {
