@@ -173,7 +173,7 @@ export default function FilterBar({ isMapShow, setIsMapShow }) {
         {/* Main Scrollable Container */}
         <div
           ref={containerRef}
-          className="flex items-center gap-2 overflow-x-auto scrollbar-none scroll-smooth md:overflow-x-visible md:pb-0 pb-2"
+          className="flex md:flex-wrap items-center gap-2 overflow-x-auto scrollbar-none scroll-smooth md:overflow-x-visible md:pb-0 pb-2"
           style={{
             scrollbarWidth: "none",
             msOverflowStyle: "none",
