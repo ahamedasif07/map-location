@@ -1,5 +1,3 @@
-"use server";
-
 import CryptoJS from "crypto-js";
 
 export async function getHotels() {
