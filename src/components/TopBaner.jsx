@@ -4,7 +4,7 @@ const TopBanner = () => {
   return (
     <div>
       {/* Top Banner */}
-      <div className="flex items-center justify-between  max-w-4xl mx-auto  border border-green-500 rounded-xl m-4 p-4">
+      <div className="flex items-center justify-between    border border-green-500 rounded-xl m-4 py-3 px-4">
         <div className="flex items-center gap-3">
           <div className="text-2xl">🎄</div>
           <div>

@@ -4,7 +4,7 @@ import { Search, ChevronDown } from "lucide-react";
 const HotelSearchBar = () => {
   return (
     <div className="w-full px-4 py-8 ">
-      <div className="max-w-7xl mx-auto">
+      <div className="">
         <div className="flex flex-col lg:flex-row items-stretch gap-3">
           {/* 1. Destination Section - Separate Box */}
           <div className="flex-[1.2] flex flex-col justify-center px-5 py-3 bg-white border border-gray-200 rounded-xl shadow-sm hover:border-gray-400 cursor-pointer transition-all">

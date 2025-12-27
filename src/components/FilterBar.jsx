@@ -142,7 +142,7 @@ export default function FilterBar() {
   };
 
   return (
-    <div className="w-full border-y border-gray-100 bg-white sticky top-0 z-40">
+    <div className="w-full border-y mx-auto  border-gray-100 bg-white sticky top-0 z-40">
       <div className="max-w-7xl mx-auto px-4 py-4 relative flex items-center group">
         {/* Left Arrow Button */}
         <button
