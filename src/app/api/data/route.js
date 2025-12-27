@@ -1,14 +1,9 @@
-import crypto from "crypto";
-
 export async function GET() {
   const apiKey = process.env.API_KEY;
-  const secret = process.env.HOTELBEDS_SECRET;
+  const secret = process.env.SECRET;
   const timestamp = Math.floor(Date.now() / 1000);
-
-  const signature = crypto
-    .createHash("sha256")
-    .update(apiKey + secret + timestamp)
-    .digest("hex");
+  const signatureString = apiKey + secret + timestamp;
+  const signature = CryptoJS.SHA256(signatureString).toString();
 
   const response = await fetch(
     "https://api.test.hotelbeds.com/hotel-content-api/1.0/hotels",
