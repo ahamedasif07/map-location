@@ -8,6 +8,7 @@ import {
   ChevronRight,
   FileVideo,
 } from "lucide-react";
+import AllFiltersDropdown from "./AllFilterButton";
 
 const FilterButton = ({ label, children, icon }) => {
   const [open, setOpen] = React.useState(false);
@@ -90,7 +91,7 @@ export default function FilterBar() {
   };
 
   return (
-    <div className="w-full border-y border-gray-400 mt-4">
+    <div className="w-full border-y border-gray-800 mt-4">
       <div
         className=" max-w-7xl mx-auto bg-white 
      rounded-xl px-3 py-3  relative"
@@ -116,7 +117,17 @@ export default function FilterBar() {
           className="flex gap-2 overflow-x-auto md:overflow-x-visible scroll-smooth px-8 scrollbar-none"
         >
           {filters.map((filter) => {
-            if (filter.isSearch) {
+            if (filter.label === "All Filters") {
+              return (
+                <FilterButton
+                  key={filter.label}
+                  label={filter.label}
+                  icon={filter.icon}
+                >
+                  <AllFiltersDropdown />
+                </FilterButton>
+              );
+            } else if (filter.isSearch) {
               return (
                 <div key={filter.label} className="relative flex-shrink-0">
                   <Search
