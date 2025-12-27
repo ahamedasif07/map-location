@@ -9,7 +9,9 @@ import {
   ChevronRight,
 } from "lucide-react";
 import AllFiltersDropdown from "./AllFilterButton";
-import { CiViewList } from "react-icons/ci";
+import { FaMapMarkerAlt } from "react-icons/fa";
+
+import { RiListView } from "react-icons/ri";
 
 /**
  * FilterButton Component with Portal support
@@ -98,6 +100,8 @@ export default function FilterBar({ isMapShow, setIsMapShow }) {
   const filters = [
     {
       label: ["View List", "View Map"],
+      iconMap: <RiListView size={16} />,
+      iconList: <FaMapMarkerAlt size={16} />,
     },
     { label: "All Filters", icon: <SlidersHorizontal size={16} /> },
     {
@@ -151,7 +155,7 @@ export default function FilterBar({ isMapShow, setIsMapShow }) {
         {/* Left Arrow Button */}
         <button
           onClick={() => handleScroll("left")}
-          className="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white shadow-lg z-20 md:hidden border border-gray-200 hover:bg-gray-50 active:scale-90 transition-all"
+          className="absolute left-0.5  top-1/2 -translate-y-1/2 p-2 rounded-full bg-white shadow-lg z-20 md:hidden border border-gray-200 hover:bg-gray-50 active:scale-90 transition-all"
           aria-label="Scroll left"
         >
           <ChevronLeft size={20} className="text-gray-700" />
@@ -160,7 +164,7 @@ export default function FilterBar({ isMapShow, setIsMapShow }) {
         {/* Right Arrow Button */}
         <button
           onClick={() => handleScroll("right")}
-          className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white shadow-lg z-20 md:hidden border border-gray-200 hover:bg-gray-50 active:scale-90 transition-all"
+          className="absolute right-0.5 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white shadow-lg z-20 md:hidden border border-gray-200 hover:bg-gray-50 active:scale-90 transition-all"
           aria-label="Scroll right"
         >
           <ChevronRight size={20} className="text-gray-700" />
@@ -185,8 +189,8 @@ export default function FilterBar({ isMapShow, setIsMapShow }) {
                   key={index}
                 >
                   <FilterButton
-                    label={isMapShow ? filter.label[1] : filter.label[0]}
-                    icon={filter.icon}
+                    label={isMapShow ? filter.label[0] : filter.label[1]}
+                    icon={isMapShow ? filter.iconMap : filter.iconList}
                   ></FilterButton>
                 </div>
               );

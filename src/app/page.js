@@ -12,12 +12,7 @@ export default function Home() {
 
   useEffect(() => {
     const handleScroll = () => {
-      // আপনি ৩০ পিক্সেল স্ক্রল করার পর ফিক্সড করতে চেয়েছেন
-      if (window.scrollY > 30) {
-        setIsSticky(true);
-      } else {
-        setIsSticky(false);
-      }
+      setIsSticky(window.scrollY > 30);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -25,6 +20,7 @@ export default function Home() {
 
   return (
     <div className="relative min-h-screen bg-gray-50">
+      {/* Sticky Top Section */}
       <div
         className={`z-50 transition-all duration-300 ${
           isSticky
@@ -33,21 +29,29 @@ export default function Home() {
         }`}
       >
         <HotelSearchBar />
-        <FilterBar const isMapShow={isMapShow} setIsMapShow={setIsMapShow} />
-
+        <FilterBar isMapShow={isMapShow} setIsMapShow={setIsMapShow} />
         <TopBanner />
       </div>
 
-      <div className=" px-4 py-6 relative">
+      {/* Content */}
+      <div className="px-4 py-6 relative">
         <div className="flex flex-col lg:flex-row gap-6 items-start">
-          {/* Left side: Hotel Cards List */}
-          <div className="w-full lg:w-[60%] space-y-4">
+          {/* Hotel List */}
+          <div
+            className={`w-full lg:w-[60%] space-y-4 ${
+              isMapShow ? "hidden lg:block" : "block"
+            }`}
+          >
             <HotelCard />
           </div>
 
-          {/* Right side: Map - এটি স্ক্রল করার সময় নিজের জায়গায় আটকে (Sticky) থাকবে */}
-          <div className="w-full  fixed lg:w-[50%] lg:sticky lg:top-[350px] h-[calc(100-220px)]">
-            <div className=" overflow-hidden border border-gray-200 shadow-sm h-[500px] lg:h-[600px]">
+          {/* Map */}
+          <div
+            className={`w-full ${
+              isMapShow ? "block" : "hidden lg:block"
+            } fixed lg:sticky lg:top-[350px] lg:w-[50%]`}
+          >
+            <div className="overflow-hidden border border-gray-200 shadow-sm h-[500px] lg:h-[600px]">
               <MapLocation />
             </div>
           </div>
